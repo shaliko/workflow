@@ -57,3 +57,19 @@ group :development do
   # gem "spring"
   gem "shoulda-matchers", ">=4.4.1"
 end
+
+# Workflow
+# - name: string
+# - steps: text (json)
+
+# POST /worksflows/:id/run
+#
+# WorkflowInstance
+# - workflow_id: integer
+# - argument: json
+# - error: json
+# - result: string
+# - startTime: DateTime
+# - endTime: DateTime
+# - state: STATE_UNSPECIFIED, ACTIVE, SUCCEEDED, FAILED, CANCELLED
+# - current_step: string
