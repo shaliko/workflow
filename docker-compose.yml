@@ -1,0 +1,22 @@
+version: '3'
+services:
+  backend:
+    build: .
+    ports:
+      - 3010:3000
+    volumes:
+      - .:/myapp:z
+    #      - gems:/usr/local/bundle
+    env_file:
+      - docker/env.web
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+volumes:
+  mysql_data: {}
+#  gems: {}

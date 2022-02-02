@@ -1,0 +1,14 @@
+inherit_from:
+  - https://raw.githubusercontent.com/carbonfive/c5-conventions/master/rubocop/rubocop.yml
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.0.1
+  SuggestExtensions: false
+  Exclude:
+    - db/schema.rb
+    - vendor/**/*
+    - bin/bundle
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
