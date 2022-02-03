@@ -15,9 +15,9 @@ default_steps = <<~TEXT
     "step2": {
       "call": "http.get",
       "args": {
-        "url": "${'https://jsonplaceholder.typicode.com/posts/' + args.postId + '/comments'}"
+        "url": "${'https://fakestoreapi.com/products?limit=' + (Math.round(Math.random() * 10) + 1)}"
       },
-      "result": "comments"
+      "result": "products"
     },
     "step3": {
       "switch": [
@@ -26,16 +26,16 @@ default_steps = <<~TEXT
           "next": "evenPostIdReturn"
         },
         {
-          "condition": "${comments.length < 5}",
-          "next": "step1"
+          "condition": "${products.length != 5}",
+          "next": "step2"
         }
       ]
     },
     "returnOutput": {
-      "return": "${'Comments count ' + comments.length}"
+      "return": "${'Products count ' + products.length}"
     },
     "evenPostIdReturn": {
-      "return": "${'Comments count ' + comments.length + ' for PostId ' + args.postId}"
+      "return": "${'Products count fetched ' + products.length}"
     }
   }
 TEXT

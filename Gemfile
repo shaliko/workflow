@@ -41,6 +41,7 @@ gem "active_model_serializers", require: true
 
 # Execute JavaScript code with Ruby
 gem "execjs", require: false
+gem "http"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -12,7 +12,7 @@ class WorkflowInstanceRunnerService
   def call
     workflow_instance.update!(start_time: DateTime.current)
 
-    workflow_instance.result = run(steps.first[1]) # TODO
+    workflow_instance.result = run(steps.first[1]) # Run first step
     workflow_instance.end_time = DateTime.current
     workflow_instance.save!
   end
@@ -22,14 +22,15 @@ class WorkflowInstanceRunnerService
   def run(step)
     action = step[:action]
 
-    rep = action.execute(workflow_input_args: workflow_instance.argument, action_results: action_results)
+    rep = action.execute(workflow_input_args: workflow_instance.argument,
+                         action_results: action_results)
 
     # Termination condition
-    return rep[:result] if (rep[:next_step]).zero?
+    return rep.result if rep.next_step == 0
 
-    action_results.merge!(rep[:result])
+    action_results.merge!(rep.result)
 
-    next_step_index = rep[:next_step] || step[:default_next_step]
+    next_step_index = rep.next_step || step[:default_next_step]
     run(steps[next_step_index])
   end
 
@@ -53,34 +54,3 @@ class WorkflowInstanceRunnerService
     steps.to_h
   end
 end
-
-# Task
-#
-
-# if (json.call.present)
-# t = Task.new(CallTask.new(json, defaultNext)) -> Factory
-
-# # WorkflowInstance
-# currentStepIndex = 0
-# results = {
-#   'job': {}
-# }
-# steps = [{1}, {2}, {3}, {4}, {5}, ...]
-#
-# {1}.run => {
-#   next_step: 'name' || 0 || nil,
-#   result: {'name': value},
-# }
-#
-# # // Tree / Composite
-#
-# currentStepName: 'step1'
-# {
-#   'step1': RubyClass.new(arguments, 23234, defaultNext: 'step2'),
-#   'step2': RubyClass.new(arguments, 23234, defaultNext: 'step2'),
-#   'step3': RubyClass.new(arguments, 23234, defaultNext: 0),
-# }.each {||}
-
-# Worker
-# wi = WorkflowInstance.find 111
-# wi.run
