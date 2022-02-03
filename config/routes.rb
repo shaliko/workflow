@@ -16,4 +16,14 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   mount Sidekiq::Web => "/sidekiq"
+
+  namespace :api do
+    namespace :v1 do
+      resources :workflows, only: %i[index show create]
+      resources :workflow_instances, only: %i[index show create] do
+        post :run, on: :collection
+      end
+    end
+  end
+
 end

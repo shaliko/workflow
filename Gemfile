@@ -63,6 +63,10 @@ group :development, :test do
   gem "rubocop-rspec"
 end
 
+group :test do
+  gem 'rspec-sidekiq'
+end
+
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
@@ -84,5 +88,5 @@ end
 # - endTime: DateTime
 # - state: STATE_UNSPECIFIED, ACTIVE, SUCCEEDED, FAILED, CANCELLED
 # - current_step: string
-gem "sassc-rails"
-gem "sassc-rails"
+# gem "sassc-rails"
+# gem "sassc-rails"
