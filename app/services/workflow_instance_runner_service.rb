@@ -38,6 +38,8 @@ class WorkflowInstanceRunnerService
     next_step_key = rep.next_step || step[:default_next_step]
 
     run(next_step_key)
+  rescue Exception => error
+    workflow_instance.error = { message: error.message }
   end
 
   def prepare_steps(workflow_instance)

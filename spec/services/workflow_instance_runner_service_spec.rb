@@ -13,7 +13,7 @@ RSpec.describe WorkflowInstanceRunnerService do
   context "when workflow success" do
     let(:workflow_instance) { create(:workflow_instance, argument: argument) }
 
-    it "when execution was success" do
+    it "save correct results" do
       described_class.call(workflow_instance: workflow_instance)
 
       expect(workflow_instance.start_time).to be_within(30.seconds).of(DateTime.current)
@@ -26,6 +26,19 @@ RSpec.describe WorkflowInstanceRunnerService do
         expect(workflow_instance.result).to eq("Products count 5")
         expect(workflow_instance.current_step).to eq("returnOutput")
       end
+    end
+  end
+
+  context "when workflow failed with raise exception" do
+    let(:workflow_instance) { create(:workflow_instance, argument: nil) }
+
+    it "saves error log" do
+      described_class.call(workflow_instance: workflow_instance)
+
+      expect(workflow_instance.error).to be_eql({"message"=>"TypeError: Cannot read property 'postId' of null"})
+
+      expect(workflow_instance.start_time).to be_within(30.seconds).of(DateTime.current)
+      expect(workflow_instance.end_time).to be_within(2.seconds).of(DateTime.current)
     end
   end
 end
