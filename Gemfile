@@ -44,6 +44,10 @@ gem "execjs", require: false
 gem "http"
 
 gem "sidekiq"
+gem 'rails_admin'
+gem 'sassc-rails'
+gem 'kaminari'
+gem 'remotipart', github: 'mshibuya/remotipart'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -80,3 +84,5 @@ end
 # - endTime: DateTime
 # - state: STATE_UNSPECIFIED, ACTIVE, SUCCEEDED, FAILED, CANCELLED
 # - current_step: string
+gem "sassc-rails"
+gem "sassc-rails"

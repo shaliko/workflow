@@ -9,6 +9,7 @@ Sidekiq::Web.use(Rack::Auth::Basic) do |username, password|
 end
 
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # define your application routes per the dsl in https://guides.rubyonrails.org/routing.html
 
   # defines the root path route ("/")
