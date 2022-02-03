@@ -13,15 +13,18 @@ RSpec.describe WorkflowInstanceRunnerService do
   context "when workflow success" do
     let(:workflow_instance) { create(:workflow_instance, argument: argument) }
 
-    it "correct result" do
+    it "when execution was success" do
       described_class.call(workflow_instance: workflow_instance)
 
       expect(workflow_instance.start_time).to be_within(30.seconds).of(DateTime.current)
+      expect(workflow_instance.end_time).to be_within(2.seconds).of(DateTime.current)
 
       if (argument[:postId] % 2) == 0
         expect(workflow_instance.result).to start_with("Products count fetched ")
+        expect(workflow_instance.current_step).to eq("evenPostIdReturn")
       else
         expect(workflow_instance.result).to eq("Products count 5")
+        expect(workflow_instance.current_step).to eq("returnOutput")
       end
     end
   end

@@ -12,17 +12,22 @@ class WorkflowInstanceRunnerService
   def call
     workflow_instance.update!(start_time: DateTime.current)
 
-    workflow_instance.result = run(steps.first[1]) # Run first step
+    first_step_key, _ = steps.first
+    workflow_instance.result = run(first_step_key)
     workflow_instance.end_time = DateTime.current
     workflow_instance.save!
   end
 
   private
 
-  def run(step)
-    action = step[:action]
+  def run(step_key)
+    puts "Running step: #{step_key}"
 
-    rep = action.execute(workflow_input_args: workflow_instance.argument,
+    step = steps[step_key]
+
+    workflow_instance.update(current_step: step_key)
+
+    rep = step[:action].execute(workflow_input_args: workflow_instance.argument,
                          action_results: action_results)
 
     # Termination condition
@@ -30,8 +35,9 @@ class WorkflowInstanceRunnerService
 
     action_results.merge!(rep.result)
 
-    next_step_index = rep.next_step || step[:default_next_step]
-    run(steps[next_step_index])
+    next_step_key = rep.next_step || step[:default_next_step]
+
+    run(next_step_key)
   end
 
   def prepare_steps(workflow_instance)
@@ -40,9 +46,8 @@ class WorkflowInstanceRunnerService
     keys = actions.keys
 
     keys.each_with_index do |key, index|
-      action_schema = actions[key]
       default_next_step = keys[index + 1] || 0
-      action = WorkflowActions::Factory.build(action_schema: action_schema)
+      action = WorkflowActions::Factory.build(action_schema: actions[key])
 
       steps << [key,
                 {
