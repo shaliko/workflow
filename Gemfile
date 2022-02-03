@@ -39,6 +39,9 @@ gem "rack-cors"
 # Serializers
 gem "active_model_serializers", require: true
 
+# Execute JavaScript code with Ruby
+gem "execjs", require: false
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "brakeman"
@@ -46,11 +49,11 @@ group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "factory_bot_rails", ">=6.1.0"
   gem "faker", ">=2.15.1"
+  gem "ffaker"
   gem "rspec-rails", ">=4.0.1"
   gem "rubocop-performance"
   gem "rubocop-rails", require: false
   gem "rubocop-rspec"
-  gem "ffaker"
 end
 
 group :development do
