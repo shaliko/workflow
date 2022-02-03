@@ -26,13 +26,10 @@ module AssignmentAppGyver
 
     # RailsAdmin support
     config.middleware.use ActionDispatch::Flash
-    config.middleware.use ActionDispatch::Session::CookieStore, {:key=>"_nurseio-backend_session"}
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use Rack::MethodOverride
 
     config.session_store :cookie_store
-    config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
-    config.middleware.use Rack::MethodOverride
   end
 end
