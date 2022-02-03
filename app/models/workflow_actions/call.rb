@@ -8,9 +8,13 @@ module WorkflowActions
 
       case action
       when "http.post"
-        http_post(js_executer)
+        request(js_executer) do |uri, body, headers|
+          HTTP.post(uri, body: body.to_json, headers: headers)
+        end
       when "http.get"
-        http_get(js_executer)
+        request(js_executer) do |uri, _body, headers|
+          HTTP.get(uri, headers: headers)
+        end
       end
     end
 
@@ -20,7 +24,7 @@ module WorkflowActions
       action_schema["call"]
     end
 
-    def request
+    def request(js_executer)
       uri = URI.parse(js_executer.eval(args["url"]))
       body = js_executer.eval(args["body"]) || ""
       headers = args["headers"] || {
@@ -35,18 +39,6 @@ module WorkflowActions
         ActionResponse.new(nil, res)
       else
         raise "Bad request"
-      end
-    end
-
-    def http_post(js_executer)
-      request do |uri, body, headers|
-        HTTP.post(uri, body: body.to_json, headers: headers)
-      end
-    end
-
-    def http_get(js_executer)
-      request do |uri, _body, headers|
-        HTTP.get(uri, headers: headers)
       end
     end
   end
