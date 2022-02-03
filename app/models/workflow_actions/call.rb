@@ -1,12 +1,6 @@
 module WorkflowActions
   class Call
-    attr_reader :action, :args, :result_key
-
-    def initialize(action_schema)
-      @action = action_schema["call"]
-      @result_key = action_schema["result"]
-      @args = action_schema["args"]
-    end
+    include WorkflowActionsActionBase
 
     def execute(workflow_input_args:, action_results:)
       js_executer = JavascriptExecuter.new(workflow_input_args: workflow_input_args,
@@ -21,6 +15,10 @@ module WorkflowActions
     end
 
     private
+
+    def action
+      action_schema["call"]
+    end
 
     def http_post(js_executer)
       uri = URI.parse(js_executer.eval(args["url"]))
