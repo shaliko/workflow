@@ -1,4 +1,4 @@
-require 'sidekiq/web'
+require "sidekiq/web"
 
 # Configure Sidekiq-specific session middleware
 Sidekiq::Web.use ActionDispatch::Cookies
@@ -9,7 +9,7 @@ Sidekiq::Web.use(Rack::Auth::Basic) do |username, password|
 end
 
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  mount RailsAdmin::Engine => "/admin", as: "rails_admin"
   # define your application routes per the dsl in https://guides.rubyonrails.org/routing.html
 
   # defines the root path route ("/")

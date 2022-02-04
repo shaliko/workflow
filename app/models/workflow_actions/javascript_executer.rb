@@ -24,7 +24,7 @@ module WorkflowActions
     private
 
     def build_js_context(workflow_input_args, action_results)
-      result_js = action_results.map {|k, v| "var #{k} = #{v.to_json};" }.join(' ')
+      result_js = action_results.map {|k, v| "var #{k} = #{v.to_json};" }.join(" ")
 
       @js_context = ExecJS.compile("#{result_js} var args = #{workflow_input_args.to_json};")
     end

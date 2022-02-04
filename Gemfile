@@ -44,10 +44,10 @@ gem "execjs", require: false
 gem "http"
 
 gem "sidekiq"
-gem 'rails_admin'
-gem 'sassc-rails'
-gem 'kaminari'
-gem 'remotipart', github: 'mshibuya/remotipart'
+gem "rails_admin"
+gem "sassc-rails"
+gem "kaminari"
+gem "remotipart", github: "mshibuya/remotipart"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -64,7 +64,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-sidekiq'
+  gem "rspec-sidekiq"
 end
 
 group :development do

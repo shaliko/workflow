@@ -7,7 +7,7 @@ module WorkflowActions
                                            action_results: action_results)
 
       for item in action do
-        if js_executer.eval(item["condition"]) == 'true'
+        if js_executer.eval(item["condition"]) == "true"
           return ActionResponse.new(item["next"], {})
         end
       end
