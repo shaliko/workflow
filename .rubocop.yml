@@ -9,6 +9,11 @@ AllCops:
     - db/schema.rb
     - vendor/**/*
     - bin/bundle
+    - bin/rspec
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/NumericPredicate:
+  Exclude:
+    - app/services/workflow_instance_runner_service.rb

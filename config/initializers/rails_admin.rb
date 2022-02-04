@@ -10,9 +10,9 @@ RailsAdmin.config do |config|
 
   config.actions do
     # root actions
-    dashboard                     # mandatory
+    dashboard # mandatory
     # collection actions
-    index                         # mandatory
+    index # mandatory
     new
     export
     history_index

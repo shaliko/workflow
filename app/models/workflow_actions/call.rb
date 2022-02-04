@@ -33,13 +33,11 @@ module WorkflowActions
 
       response = yield(uri, body, headers)
 
-      if (200..299).cover?(response.code.to_i)
-        res = result_key.present? ? { result_key.to_sym => JSON.parse(response.body.to_s) } : {}
+      raise "Bad request" unless (200..299).cover?(response.code.to_i)
 
-        ActionResponse.new(nil, res)
-      else
-        raise "Bad request"
-      end
+      res = result_key.present? ? { result_key.to_sym => JSON.parse(response.body.to_s) } : {}
+
+      ActionResponse.new(nil, res)
     end
   end
 end

@@ -7,7 +7,7 @@ RSpec.describe "Api::V1::WorkflowInstances", type: :request do
     subject { post "/api/v1/workflow_instances/run", params: params }
 
     context "when params valid" do
-      let(:params) { attributes_for(:workflow_instance).merge({workflow_id: workflow.id}) }
+      let(:params) { attributes_for(:workflow_instance).merge({ workflow_id: workflow.id }) }
 
       before do
         Sidekiq::Queue.all.each(&:clear)
@@ -17,7 +17,8 @@ RSpec.describe "Api::V1::WorkflowInstances", type: :request do
 
       it { expect(response).to have_http_status(200) }
       it "responds with a valid json object" do
-        expect(JSON.parse(response.body)).to eql(JSON.parse(WorkflowInstanceSerializer.new(WorkflowInstance.last).to_json))
+        expect(JSON.parse(response.body))
+          .to eql(JSON.parse(WorkflowInstanceSerializer.new(WorkflowInstance.last).to_json))
       end
 
       it "enqueues WorkflowInstanceRunnerJob" do
@@ -26,7 +27,7 @@ RSpec.describe "Api::V1::WorkflowInstances", type: :request do
     end
 
     context "when missed argument param" do
-      let(:params) { {workflow_id: workflow.id} }
+      let(:params) { { workflow_id: workflow.id } }
 
       before { subject }
 

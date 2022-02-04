@@ -43,11 +43,11 @@ gem "active_model_serializers", require: true
 gem "execjs", require: false
 gem "http"
 
-gem "sidekiq"
-gem "rails_admin"
-gem "sassc-rails"
 gem "kaminari"
+gem "rails_admin"
 gem "remotipart", github: "mshibuya/remotipart"
+gem "sassc-rails"
+gem "sidekiq"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -21,7 +21,7 @@ RSpec.describe WorkflowInstanceRunnerService do
 
       expect(workflow_instance.state).to eql("succeeded")
 
-      if (argument[:postId] % 2) == 0
+      if argument[:postId].even?
         expect(workflow_instance.result).to start_with("Products count fetched ")
       else
         expect(workflow_instance.result).to eq("Products count 5")
@@ -36,7 +36,7 @@ RSpec.describe WorkflowInstanceRunnerService do
       described_class.call(workflow_instance: workflow_instance)
 
       expect(workflow_instance.state).to eql("cancelled")
-      expect(workflow_instance.error).to be_eql({"message"=>"TypeError: Cannot read property 'postId' of null"})
+      expect(workflow_instance.error).to be_eql({ "message" => "TypeError: Cannot read property 'postId' of null" })
 
       expect(workflow_instance.start_time).to be_within(30.seconds).of(DateTime.current)
       expect(workflow_instance.end_time).to be_within(2.seconds).of(DateTime.current)
