@@ -2,7 +2,7 @@ module Api
   module V1
     class WorkflowsController < ApplicationController
       def index
-        render json: Workflow.order(id: :desc).page(params[:page]), serializer: WorkflowSerializer
+        render json: Workflow.order(id: :desc).page(params[:page]), each_serializer: WorkflowSerializer
       end
 
       def show

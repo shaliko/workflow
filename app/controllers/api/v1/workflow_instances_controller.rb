@@ -4,7 +4,7 @@ module Api
       before_action :find_workflow, only: :run
 
       def index
-        render json: WorkflowInstance.order(id: :desc).page(params[:page]), serializer: WorkflowInstanceSerializer
+        render json: WorkflowInstance.order(id: :desc).page(params[:page]), each_serializer: WorkflowInstanceSerializer
       end
 
       def show
