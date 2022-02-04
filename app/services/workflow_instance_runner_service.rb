@@ -10,12 +10,21 @@ class WorkflowInstanceRunnerService
   end
 
   def call
-    workflow_instance.update!(start_time: DateTime.current)
+    workflow_instance.update!(start_time: DateTime.current, state: :active)
 
     first_step_key, _ = steps.first
     workflow_instance.result = run(first_step_key)
     workflow_instance.end_time = DateTime.current
+    workflow_instance.state = :succeeded
+    workflow_instance.current_step = nil
     workflow_instance.save!
+  rescue => error
+    workflow_instance.error = { message: error.message }
+    workflow_instance.end_time = DateTime.current
+    workflow_instance.state = :cancelled
+    workflow_instance.save
+
+    false
   end
 
   private
@@ -38,8 +47,6 @@ class WorkflowInstanceRunnerService
     next_step_key = rep.next_step || step[:default_next_step]
 
     run(next_step_key)
-  rescue => error
-    workflow_instance.error = { message: error.message }
   end
 
   def prepare_steps(workflow_instance)
